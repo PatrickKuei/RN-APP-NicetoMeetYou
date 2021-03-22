@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Text, View } from "react-native";
+import Book from "../Book/Book";
 
 export default function BookList() {
   const [bookList, setBookList] = useState({
@@ -29,7 +30,7 @@ export default function BookList() {
   ) : (
     <View>
       {bookList.list.map((book) => (
-        <Text>{book.name}</Text>
+        <Book book={book} />
       ))}
     </View>
   );
