@@ -1,18 +1,48 @@
 import React from "react";
-import { Text, View, Image } from "react-native";
+import { Text, View, TouchableOpacity, Image } from "react-native";
+import { styles } from "./styles";
 
-export default function Book({ book }) {
+export default function Book({ book, navigation }) {
+  const isImgExist = () => {
+    if (book && book.image) {
+      return book.image.substr(0, 4) === "http";
+    }
+    return false;
+  };
+
+  const onBookPress = () => {
+    navigation.navigate("BookDetail", {
+      bookName: book.name,
+      author: book.author,
+      createDate: book.created,
+      bookDescript: book.descript,
+    });
+  };
+
   return (
-    <View style={{ border: "1px solid" }}>
-      <Image
-        style={{ width: "50px", height: "50px" }}
-        source={{
-          uri: book.image,
-        }}
-      />
-      <Text>{book.name}</Text>
-      <Text>{book.author}</Text>
-      <Text>{book.created}</Text>
-    </View>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => onBookPress(book.name)}
+    >
+      <View style={styles.book}>
+        {isImgExist() ? (
+          <Image
+            style={styles.bookImg}
+            source={{
+              uri: book.image,
+            }}
+          />
+        ) : (
+          <Image
+            style={styles.defaultImg}
+            source={require("../../../assets/close.png")}
+          />
+        )}
+
+        <Text>{book.name}</Text>
+        {book.author ? <Text style={styles.author}>by {book.author}</Text> : ""}
+        <Text style={styles.createDate}>{book.created}</Text>
+      </View>
+    </TouchableOpacity>
   );
 }

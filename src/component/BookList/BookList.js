@@ -1,37 +1,36 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import { FlatList, View } from "react-native";
+import { booksAPIs } from "../../api/booksAPI";
 import Book from "../Book/Book";
+import { styles } from "./styles";
 
-export default function BookList() {
+export default function BookList({ navigation }) {
   const [bookList, setBookList] = useState({
     list: [],
     isLoading: true,
   });
 
-  const fetchBooklist = () => {
-    axios
-      .get("https://fe-interview-api.unnotech.com/books")
-      .then((res) => {
-        setBookList({
-          list: res.data,
-          isLoading: false,
-        });
-      })
-      .catch((err) => console.log(err));
+  const fetchBooklist = async () => {
+    const { data } = await booksAPIs.getBookList();
+    setBookList({
+      list: data,
+      isLoading: false,
+    });
   };
 
   useEffect(() => {
     fetchBooklist();
-  }, [bookList.isLoading]);
+  }, []);
 
   return bookList.isLoading ? (
     <View>loading...</View>
   ) : (
-    <View>
-      {bookList.list.map((book) => (
-        <Book book={book} />
-      ))}
-    </View>
+    <FlatList
+      horizontal={false}
+      numColumns={2}
+      data={bookList.list}
+      renderItem={({ item }) => <Book book={item} navigation={navigation} />}
+      keyExtractor={(item) => item.id}
+    />
   );
 }
