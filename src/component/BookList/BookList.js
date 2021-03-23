@@ -1,26 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { FlatList, View } from "react-native";
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import { Button, FlatList, View } from "react-native";
 import { booksAPIs } from "../../api/booksAPI";
 import Book from "../Book/Book";
-import { styles } from "./styles";
 
-export default function BookList({ navigation }) {
-  const [bookList, setBookList] = useState({
-    list: [],
-    isLoading: true,
-  });
-
+export default function BookList({ navigation, bookList, updateList }) {
   const fetchBooklist = async () => {
     const { data } = await booksAPIs.getBookList();
-    setBookList({
-      list: data,
-      isLoading: false,
+    updateList(data);
+  };
+
+  const addHeaderRightButton = () => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          title="New"
+          color="#edcf64"
+          onPress={() =>
+            navigation.navigate("BookEdit", { title: "Add new book" })
+          }
+        />
+      ),
     });
   };
 
   useEffect(() => {
     fetchBooklist();
   }, []);
+
+  useLayoutEffect(() => {
+    addHeaderRightButton();
+  }, [navigation]);
 
   return bookList.isLoading ? (
     <View>loading...</View>

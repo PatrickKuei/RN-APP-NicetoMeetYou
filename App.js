@@ -1,15 +1,15 @@
 import React from "react";
-import { Button, View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import BookList from "./src/component/BookList/BookList";
-import reducers from "./src/redux";
+import BookList from "./src/containers/BookList";
 import BookDetail from "./src/component/BookDetail/BookDetail";
+import BookEdit from "./src/component/BookEdit/BookEdit";
+import { booksReducer } from "./src/redux/books/reducer";
 
 export default function App() {
-  const store = createStore(reducers);
+  const store = createStore(booksReducer);
   const Stack = createStackNavigator();
   return (
     <Provider store={store}>
@@ -23,9 +23,6 @@ export default function App() {
               headerStyle: {
                 backgroundColor: "#edcf64",
               },
-              headerRight: () => (
-                <Button title="New" color="#edcf64" onPress={() => {}} />
-              ),
               headerTintColor: "white",
             }}
           />
@@ -41,9 +38,21 @@ export default function App() {
                 fontSize: "24px",
                 marginBottom: "5px",
               },
-              headerRight: () => (
-                <Button title="Edit" color="#edcf64" onPress={() => {}} />
-              ),
+              headerTintColor: "white",
+            })}
+          />
+          <Stack.Screen
+            name="BookEdit"
+            component={BookEdit}
+            options={({ route }) => ({
+              title: route.params.title,
+              headerStyle: {
+                backgroundColor: "#edcf64",
+              },
+              headerTitleStyle: {
+                fontSize: "24px",
+                marginBottom: "5px",
+              },
               headerTintColor: "white",
             })}
           />
