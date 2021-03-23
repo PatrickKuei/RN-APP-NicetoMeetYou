@@ -28,7 +28,7 @@ export default function App() {
             name="BookDetail"
             component={BookDetail}
             options={({ route }) => ({
-              title: route.params.bookName,
+              title: route.params.book.name,
               headerStyle: styles.header,
               headerTitleStyle: styles.headerTitleStyle,
               headerTintColor: "white",

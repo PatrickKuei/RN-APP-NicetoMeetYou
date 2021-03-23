@@ -14,7 +14,7 @@ export default function BookDetail({ navigation, route }) {
           onPress={() =>
             navigation.navigate("BookEdit", {
               from: "bookDetail",
-              title: "Edit new book",
+              title: "Edit book",
               book,
             })
           }
