@@ -3,10 +3,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import BookList from "./src/containers/BookList";
+import Component from "./src/containers/BookList";
 import BookDetail from "./src/component/BookDetail/BookDetail";
-import BookEdit from "./src/component/BookEdit/BookEdit";
 import { booksReducer } from "./src/redux/books/reducer";
+import { styles } from "./styles";
 
 export default function App() {
   const store = createStore(booksReducer);
@@ -17,12 +17,10 @@ export default function App() {
         <Stack.Navigator initialRouteName="BookList">
           <Stack.Screen
             name="BookList"
-            component={BookList}
+            component={Component.BookList}
             options={{
               title: " ",
-              headerStyle: {
-                backgroundColor: "#edcf64",
-              },
+              headerStyle: styles.header,
               headerTintColor: "white",
             }}
           />
@@ -31,28 +29,18 @@ export default function App() {
             component={BookDetail}
             options={({ route }) => ({
               title: route.params.bookName,
-              headerStyle: {
-                backgroundColor: "#edcf64",
-              },
-              headerTitleStyle: {
-                fontSize: "24px",
-                marginBottom: "5px",
-              },
+              headerStyle: styles.header,
+              headerTitleStyle: styles.headerTitleStyle,
               headerTintColor: "white",
             })}
           />
           <Stack.Screen
             name="BookEdit"
-            component={BookEdit}
+            component={Component.BookEdit}
             options={({ route }) => ({
               title: route.params.title,
-              headerStyle: {
-                backgroundColor: "#edcf64",
-              },
-              headerTitleStyle: {
-                fontSize: "24px",
-                marginBottom: "5px",
-              },
+              headerStyle: styles.header,
+              headerTitleStyle: styles.headerTitleStyle,
               headerTintColor: "white",
             })}
           />

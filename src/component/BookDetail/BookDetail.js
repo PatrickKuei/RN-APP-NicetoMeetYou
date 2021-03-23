@@ -3,7 +3,7 @@ import { Text, View, Button } from "react-native";
 import { styles } from "./styles";
 
 export default function BookDetail({ navigation, route }) {
-  const { bookDescript, author, createDate } = route.params;
+  const { book } = route.params;
 
   const addHeaderRightButton = () => {
     navigation.setOptions({
@@ -13,10 +13,9 @@ export default function BookDetail({ navigation, route }) {
           color="#edcf64"
           onPress={() =>
             navigation.navigate("BookEdit", {
+              from: "bookDetail",
               title: "Edit new book",
-              author,
-              createDate,
-              bookDescript,
+              book,
             })
           }
         />
@@ -31,13 +30,15 @@ export default function BookDetail({ navigation, route }) {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text style={styles.author}>Author: {author ? author : "unknown"}</Text>
+        <Text style={styles.author}>
+          Author: {book.author ? book.author : "unknown"}
+        </Text>
         <Text style={styles.createDate}>
-          {createDate ? createDate : "unknown"}
+          {book.created ? book.created : "unknown"}
         </Text>
       </View>
       <View style={styles.descript}>
-        <Text>{bookDescript ? bookDescript : "unknown"}</Text>
+        <Text>{book.descript ? book.descript : "unknown"}</Text>
       </View>
     </View>
   );

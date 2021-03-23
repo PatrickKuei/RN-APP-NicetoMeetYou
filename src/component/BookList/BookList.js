@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import { Button, FlatList, View } from "react-native";
+import React, { useEffect, useLayoutEffect } from "react";
+import { Button, FlatList, Text, View } from "react-native";
 import { booksAPIs } from "../../api/booksAPI";
 import Book from "../Book/Book";
 
@@ -16,7 +16,10 @@ export default function BookList({ navigation, bookList, updateList }) {
           title="New"
           color="#edcf64"
           onPress={() =>
-            navigation.navigate("BookEdit", { title: "Add new book" })
+            navigation.navigate("BookEdit", {
+              from: "bookList",
+              title: "Add new book",
+            })
           }
         />
       ),
@@ -32,7 +35,7 @@ export default function BookList({ navigation, bookList, updateList }) {
   }, [navigation]);
 
   return bookList.isLoading ? (
-    <View>loading...</View>
+    <Text>loading...</Text>
   ) : (
     <FlatList
       horizontal={false}

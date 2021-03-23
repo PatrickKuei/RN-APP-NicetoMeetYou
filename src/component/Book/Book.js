@@ -12,10 +12,13 @@ export default function Book({ book, navigation }) {
 
   const onBookPress = () => {
     navigation.navigate("BookDetail", {
-      bookName: book.name,
-      author: book.author,
-      createDate: book.created,
-      bookDescript: book.descript,
+      book: {
+        id: book.id,
+        name: book.name,
+        author: book.author,
+        created: book.created,
+        descript: book.descript,
+      },
     });
   };
 
@@ -38,7 +41,6 @@ export default function Book({ book, navigation }) {
             source={require("../../../assets/close.png")}
           />
         )}
-
         <Text>{book.name}</Text>
         {book.author ? <Text style={styles.author}>by {book.author}</Text> : ""}
         <Text style={styles.createDate}>{book.created}</Text>

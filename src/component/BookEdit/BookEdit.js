@@ -2,33 +2,46 @@ import React, { useState, useLayoutEffect } from "react";
 import { TextInput, View, Button } from "react-native";
 import { styles } from "./styles";
 
-export default function BookEdit({ navigation, route }) {
-  const { author, createDate, bookDescript } = route.params;
-  const [formState, setFormState] = useState({
-    author,
-    createDate,
-    bookDescript,
+export default function BookEdit({ navigation, route, addBook, editBook }) {
+  const { book, from } = route.params;
+
+  const [bookInfo, setBookInfo] = useState({
+    ...book,
   });
 
   const onAuthorInputChange = (author) => {
-    setFormState((prev) => ({
+    setBookInfo((prev) => ({
       ...prev,
       author,
     }));
   };
 
-  const onCreateDateChange = (createDate) => {
-    setFormState((prev) => ({
+  const onCreateDateChange = (created) => {
+    setBookInfo((prev) => ({
       ...prev,
-      createDate,
+      created,
     }));
   };
 
-  const onDescriptChange = (bookDescript) => {
-    setFormState((prev) => ({
+  const onDescriptChange = (descript) => {
+    setBookInfo((prev) => ({
       ...prev,
-      bookDescript,
+      descript,
     }));
+  };
+  const handleSavePress = () => {
+    switch (from) {
+      case "bookList":
+        addBook(bookInfo);
+        navigation.navigate("BookList");
+        break;
+      case "bookDetail":
+        editBook(bookInfo);
+        navigation.navigate("BookList");
+        break;
+      default:
+        break;
+    }
   };
 
   const addHeaderRightButton = () => {
@@ -37,7 +50,7 @@ export default function BookEdit({ navigation, route }) {
         <Button
           title="Save"
           color="#edcf64"
-          onPress={() => console.log(formState)}
+          onPress={() => handleSavePress()}
         />
       ),
     });
@@ -45,14 +58,14 @@ export default function BookEdit({ navigation, route }) {
 
   useLayoutEffect(() => {
     addHeaderRightButton();
-  }, [navigation, formState]);
+  }, [navigation, bookInfo]);
 
   return (
     <View>
       <View style={styles.author}>
         <TextInput
           onChangeText={(text) => onAuthorInputChange(text)}
-          value={formState.author}
+          value={bookInfo.author}
           style={styles.authorInput}
           placeholder="Author"
         />
@@ -60,7 +73,7 @@ export default function BookEdit({ navigation, route }) {
       <View style={styles.createDate}>
         <TextInput
           onChangeText={(text) => onCreateDateChange(text)}
-          value={formState.createDate}
+          value={bookInfo.created}
           style={styles.createDateInput}
           placeholder="Created at"
         />
@@ -69,7 +82,7 @@ export default function BookEdit({ navigation, route }) {
         <TextInput
           onChangeText={(text) => onDescriptChange(text)}
           style={styles.bookDescriptInput}
-          value={formState.bookDescript}
+          value={bookInfo.descript}
           multiline
           numberOfLines={10}
         />

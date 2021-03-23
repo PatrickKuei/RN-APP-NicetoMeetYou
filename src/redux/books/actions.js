@@ -7,4 +7,16 @@ export const booksActions = {
       data,
     };
   },
+  addBook: (info) => {
+    return {
+      type: actionTypes.ADD_BOOK,
+      info,
+    };
+  },
+  editBook: (info) => {
+    return {
+      type: actionTypes.EDIT_BOOK,
+      info,
+    };
+  },
 };
