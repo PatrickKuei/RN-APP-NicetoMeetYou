@@ -5,7 +5,11 @@ import { addHeaderRightButton } from "../../utilities";
 import Book from "../Book/Book";
 
 export default function BookList({ navigation, bookList, updateList }) {
-  const [visibleList, setVisibleList] = useState([]);
+  const [visibleList, setVisibleList] = useState({
+    list: [],
+    piecePerPage: null,
+    pagesOnScreen: null,
+  });
 
   const fetchBooklist = async () => {
     const { data } = await booksAPIs.getBookList();
@@ -18,12 +22,29 @@ export default function BookList({ navigation, bookList, updateList }) {
       title: "Add new book",
     });
 
+  const handleLoadMore = () => {
+    const updatedPagesOnScreen = visibleList.pagesOnScreen + 1;
+    const moreList = bookList.list.slice(
+      0,
+      visibleList.piecePerPage * updatedPagesOnScreen
+    );
+    setVisibleList((prev) => ({
+      ...prev,
+      pagesOnScreen: updatedPagesOnScreen,
+      list: moreList,
+    }));
+  };
+
   useEffect(() => {
     fetchBooklist();
   }, []);
 
   useEffect(() => {
-    setVisibleList(bookList.list.slice(0, 18));
+    setVisibleList({
+      list: bookList.list.slice(0, 12),
+      piecePerPage: 12,
+      pagesOnScreen: 1,
+    });
   }, [bookList.isLoading]);
 
   useLayoutEffect(() => {
@@ -35,13 +56,13 @@ export default function BookList({ navigation, bookList, updateList }) {
   ) : (
     <View>
       <FlatList
-        style={{ height: "1000px", maxHeight: "900px" }}
+        style={{ maxHeight: "95vh" }}
         horizontal={false}
         numColumns={2}
-        data={visibleList}
+        data={visibleList.list}
         renderItem={({ item }) => <Book book={item} navigation={navigation} />}
         keyExtractor={(item) => item.id}
-        onEndReached={() => alert("end")}
+        onEndReached={() => handleLoadMore()}
         onEndReachedThreshold={0.01}
       />
     </View>
