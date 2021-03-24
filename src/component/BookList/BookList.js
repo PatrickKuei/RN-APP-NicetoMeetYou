@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { View, FlatList, Text } from "react-native";
 import { booksAPIs } from "../../api/booksAPI";
+import { config } from "../../config";
 import { addHeaderRightButton } from "../../utilities";
 import Book from "../Book/Book";
 
 export default function BookList({ navigation, bookList, updateList }) {
   const [visibleList, setVisibleList] = useState({
     list: [],
-    piecePerPage: null,
-    pagesOnScreen: null,
+    totalPagesOnScreen: null,
   });
+  const { itemsPerPage } = config.bookList;
 
   const fetchBooklist = async () => {
     const { data } = await booksAPIs.getBookList();
@@ -22,16 +23,27 @@ export default function BookList({ navigation, bookList, updateList }) {
       title: "Add new book",
     });
 
+  const getNewList = (totalPagesOnScreen) => {
+    const newList = bookList.list.slice(0, itemsPerPage * totalPagesOnScreen);
+    return newList;
+  };
+
+  const initialVisibleList = () => {
+    const firstPageOnScreen = 1;
+    const firstPageList = getNewList(firstPageOnScreen);
+    setVisibleList({
+      list: firstPageList,
+      totalPagesOnScreen: firstPageOnScreen,
+    });
+  };
+
   const handleLoadMore = () => {
-    const updatedPagesOnScreen = visibleList.pagesOnScreen + 1;
-    const moreList = bookList.list.slice(
-      0,
-      visibleList.piecePerPage * updatedPagesOnScreen
-    );
+    const updatedTotalPages = visibleList.totalPagesOnScreen + 1;
+    const newList = getNewList(updatedTotalPages);
     setVisibleList((prev) => ({
       ...prev,
-      pagesOnScreen: updatedPagesOnScreen,
-      list: moreList,
+      list: newList,
+      pagesOnScreen: updatedTotalPages,
     }));
   };
 
@@ -40,11 +52,7 @@ export default function BookList({ navigation, bookList, updateList }) {
   }, []);
 
   useEffect(() => {
-    setVisibleList({
-      list: bookList.list.slice(0, 12),
-      piecePerPage: 12,
-      pagesOnScreen: 1,
-    });
+    initialVisibleList();
   }, [bookList.isLoading]);
 
   useLayoutEffect(() => {
@@ -56,7 +64,7 @@ export default function BookList({ navigation, bookList, updateList }) {
   ) : (
     <View>
       <FlatList
-        style={{ maxHeight: "95vh" }}
+        style={{ maxHeight: "90vh" }}
         horizontal={false}
         numColumns={2}
         data={visibleList.list}

@@ -27,10 +27,12 @@ export default function Book({ book, navigation }) {
             }}
           />
         ) : (
-          <Image
-            style={styles.defaultImg}
-            source={require("../../../assets/close.png")}
-          />
+          <View style={{ margin: "25px" }}>
+            <Image
+              style={styles.defaultImg}
+              source={require("../../../assets/close.png")}
+            />
+          </View>
         )}
         {book.name ? <Text>{book.name}</Text> : ""}
         {book.author ? <Text style={styles.author}>by {book.author}</Text> : ""}
