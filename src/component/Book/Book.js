@@ -12,21 +12,12 @@ export default function Book({ book, navigation }) {
 
   const onBookPress = () => {
     navigation.navigate("BookDetail", {
-      book: {
-        id: book.id,
-        name: book.name,
-        author: book.author,
-        created: book.created,
-        descript: book.descript,
-      },
+      book,
     });
   };
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => onBookPress(book.name)}
-    >
+    <TouchableOpacity style={styles.container} onPress={() => onBookPress()}>
       <View style={styles.book}>
         {isImgExist() ? (
           <Image
@@ -41,7 +32,7 @@ export default function Book({ book, navigation }) {
             source={require("../../../assets/close.png")}
           />
         )}
-        <Text>{book.name}</Text>
+        {book.name ? <Text>{book.name}</Text> : ""}
         {book.author ? <Text style={styles.author}>by {book.author}</Text> : ""}
         <Text style={styles.createDate}>{book.created}</Text>
       </View>

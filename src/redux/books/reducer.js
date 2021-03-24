@@ -5,7 +5,7 @@ const initialState = {
     list: [
       {
         id: 0,
-        name: "unknown",
+        name: "",
         image: null,
         count: "unknown",
         author: "unknown",
@@ -20,10 +20,8 @@ const initialState = {
 const newBook = (state, info) => {
   return {
     ...initialState.bookList.list[0],
+    ...info,
     id: state.bookList.list.length + 1,
-    author: info.author,
-    created: info.created,
-    descript: info.descript,
   };
 };
 
@@ -33,11 +31,7 @@ const editedList = (state, info) => {
   const targetBook = list[targetIndex];
   const editedBook = {
     ...targetBook,
-    id: info.id,
-    name: info.name,
-    author: info.author,
-    created: info.created,
-    descript: info.descript ? info.descript : "",
+    ...info,
   };
   const newList = [
     ...list.slice(0, targetIndex),

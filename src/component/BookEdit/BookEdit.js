@@ -1,9 +1,11 @@
 import React, { useState, useLayoutEffect } from "react";
-import { TextInput, View, Button } from "react-native";
+import { TextInput, View } from "react-native";
+import { booksAPIs } from "../../api/booksAPI";
+import { addHeaderRightButton } from "../../utilities";
 import { styles } from "./styles";
 
 export default function BookEdit({ navigation, route, addBook, editBook }) {
-  const { book, from } = route.params;
+  const { book, detail, from } = route.params;
 
   const [bookInfo, setBookInfo] = useState({
     ...book,
@@ -29,35 +31,40 @@ export default function BookEdit({ navigation, route, addBook, editBook }) {
       descript,
     }));
   };
+
+  const addNewBook = async (info) => {
+    await booksAPIs.addBook(info);
+    addBook(info);
+    navigation.navigate("BookList");
+  };
+
+  const editOldBook = async (info) => {
+    const _newDetail = {
+      id: info.id,
+      price: 999,
+      count: 999,
+    };
+    await booksAPIs.editBookById(info.id, _newDetail);
+    editBook(info);
+    navigation.navigate("BookList");
+  };
+
+  //use dispatch to add/edit bookList
   const handleSavePress = () => {
     switch (from) {
       case "bookList":
-        addBook(bookInfo);
-        navigation.navigate("BookList");
+        addNewBook(bookInfo);
         break;
       case "bookDetail":
-        editBook(bookInfo);
-        navigation.navigate("BookList");
+        editOldBook(bookInfo);
         break;
       default:
         break;
     }
   };
 
-  const addHeaderRightButton = () => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Button
-          title="Save"
-          color="#edcf64"
-          onPress={() => handleSavePress()}
-        />
-      ),
-    });
-  };
-
   useLayoutEffect(() => {
-    addHeaderRightButton();
+    addHeaderRightButton(navigation, "Save", handleSavePress);
   }, [navigation, bookInfo]);
 
   return (
