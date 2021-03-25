@@ -54,7 +54,7 @@ export default function BookList({ navigation, bookList, updateList }) {
 
   useEffect(() => {
     initialVisibleList();
-  }, [bookList.isLoading]);
+  }, [bookList]);
 
   useLayoutEffect(() => {
     addHeaderRightButton(navigation, "New", handleHeaderButtonPress);

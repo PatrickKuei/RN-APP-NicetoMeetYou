@@ -17,7 +17,7 @@ const initialState = {
   },
 };
 
-const newBook = (state, info) => {
+const getNewBook = (state, info) => {
   return {
     ...initialState.bookList.list[0],
     ...info,
@@ -54,21 +54,23 @@ export const booksReducer = (state = initialState, action) => {
     }
     case actionTypes.ADD_BOOK: {
       const { info } = action;
+      const newBook = getNewBook(state, info);
       return {
         ...state,
         bookList: {
           ...state.bookList,
-          list: [...state.bookList.list, newBook(state, info)],
+          list: [...state.bookList.list, newBook],
         },
       };
     }
     case actionTypes.EDIT_BOOK: {
       const { info } = action;
+      const newList = editedList(state, info);
       return {
         ...state,
         bookList: {
           ...state.bookList,
-          list: editedList(state, info),
+          list: newList,
         },
       };
     }
