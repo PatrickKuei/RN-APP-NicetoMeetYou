@@ -4,6 +4,7 @@ import { booksAPIs } from "../../api/booksAPI";
 import { config } from "../../config";
 import { addHeaderRightButton } from "../../utilities";
 import Book from "../Book/Book";
+import { styles } from "./styles";
 
 export default function BookList({ navigation, bookList, updateList }) {
   const [visibleList, setVisibleList] = useState({
@@ -64,7 +65,7 @@ export default function BookList({ navigation, bookList, updateList }) {
   ) : (
     <View>
       <FlatList
-        style={{ maxHeight: "90vh" }}
+        style={styles.booksFlatList}
         horizontal={false}
         numColumns={2}
         data={visibleList.list}

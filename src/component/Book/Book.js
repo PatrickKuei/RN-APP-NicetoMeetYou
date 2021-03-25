@@ -27,7 +27,7 @@ export default function Book({ book, navigation }) {
             }}
           />
         ) : (
-          <View style={{ margin: "25px" }}>
+          <View style={styles.defaultImgContainer}>
             <Image
               style={styles.defaultImg}
               source={require("../../../assets/close.png")}

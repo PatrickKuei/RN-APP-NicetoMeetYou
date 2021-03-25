@@ -20,6 +20,9 @@ export const styles = StyleSheet.create({
     height: "50px",
     marginBottom: "8px",
   },
+  defaultImgContainer: {
+    margin: "25px",
+  },
   defaultImg: {
     width: "16px",
     height: "16px",
