@@ -1,10 +1,11 @@
 import axios from "axios";
 import { config } from "../config";
 
+const bookAxios = axios.create({ baseURL: config.baseURL });
+
 export const booksAPIs = {
-  getBookList: () => axios.get(`${config.baseURL}/books`),
-  getBookDetail: (id) => axios.get(`${config.baseURL}/profile/${id}`),
-  addBook: (info) => axios.post(`${config.baseURL}/books`, info),
-  editBookById: (id, info) =>
-    axios.patch(`${config.baseURL}/profile/${id}`, info),
+  getBookList: () => bookAxios.get(`/books`),
+  getBookDetail: (id) => bookAxios.get(`/profile/${id}`),
+  addBook: (info) => bookAxios.post(`/books`, info),
+  editBookById: (id, info) => bookAxios.patch(`/profile/${id}`, info),
 };
