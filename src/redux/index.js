@@ -2,11 +2,11 @@ import React from "react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { combineReducers } from "redux";
-import { booksReducer } from "./books/reducer";
+import { usersReducer } from "./users/reducer";
 
-export const reducers = combineReducers({ booksReducer });
+export const reducers = combineReducers({ booksReducer: usersReducer });
 
-const store = createStore(booksReducer);
+const store = createStore(usersReducer);
 
 export function BooksProvider(props) {
   return <Provider store={store}>{props.children}</Provider>;

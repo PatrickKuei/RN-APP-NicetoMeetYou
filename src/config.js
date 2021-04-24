@@ -1,6 +1,6 @@
 export const config = {
-  baseURL: "https://fe-interview-api.unnotech.com",
-  bookList: {
-    itemsPerPage: 12,
+  baseURL: "https://api.github.com/",
+  list: {
+    itemsPerPage: 30,
   },
 };

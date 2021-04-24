@@ -1,47 +1,42 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import Component from "../containers/BooksContainer";
-import BookDetail from "../component/BookDetail/BookDetail";
-
-import { styles } from "./styles";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Icon } from "react-native-elements";
+import Component from "../containers/UsersContainer";
+import HomePage from "../component/Home/HomePage";
 
 export default function Navigation() {
-  const Stack = createStackNavigator();
+  const Tab = createBottomTabNavigator();
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="BookList">
-        <Stack.Screen
-          name="BookList"
-          component={Component.BookList}
+      <Tab.Navigator
+        initialRouteName="HomePage"
+        tabBarOptions={{
+          showLabel: false,
+        }}
+      >
+        <Tab.Screen
+          name="HomePage"
+          component={HomePage}
           options={{
-            title: " ",
-            headerStyle: styles.header,
-            headerTintColor: "white",
+            tabBarLabel: "HomePage",
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="home" color={color} size={size} />
+            ),
           }}
         />
-        <Stack.Screen
-          name="BookDetail"
-          component={BookDetail}
-          options={({ route }) => ({
-            title: route.params.book.name,
-            headerStyle: styles.header,
-            headerTitleStyle: styles.headerTitleStyle,
-            headerTintColor: "white",
-          })}
+        <Tab.Screen
+          name="UserList"
+          component={Component.UserList}
+          options={{
+            tabBarLabel: "UserList",
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="list" color={color} size={size} />
+            ),
+          }}
         />
-        <Stack.Screen
-          name="BookEdit"
-          component={Component.BookEdit}
-          options={({ route }) => ({
-            title: route.params.title,
-            headerStyle: styles.header,
-            headerTitleStyle: styles.headerTitleStyle,
-            headerTintColor: "white",
-          })}
-        />
-      </Stack.Navigator>
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
