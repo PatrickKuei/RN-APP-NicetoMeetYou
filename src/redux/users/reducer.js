@@ -5,7 +5,12 @@ const initialState = {
     list: [
       {
         id: 0,
-        name: "",
+        login: "",
+        avatar_url: "",
+        html_url: "",
+        repos_url: "",
+        type: "",
+        site_admin: false,
       },
     ],
     isLoading: true,

@@ -1,7 +1,7 @@
 import axios from "axios";
-import { config } from "../config";
+import { configs } from "../configs";
 
-const axiosInstance = axios.create({ baseURL: config.baseURL });
+const axiosInstance = axios.create({ baseURL: configs.baseURL });
 
 export const listAPIs = {
   getUsers: () => axiosInstance.get(`/users`),

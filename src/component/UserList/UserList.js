@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { View, FlatList, Text, TouchableOpacity, Button } from "react-native";
 import { listAPIs } from "../../api/listAPIs";
+import { configs } from "../../configs";
 import User from "../User/User";
 import { styles } from "./styles";
 
-export default function UserList({ userList, updateList }) {
+export default function UserList({ userList, updateList, ToggleTabButton }) {
   const fetchBooklist = async () => {
     const { data } = await listAPIs.getUsers();
     updateList(data);
   };
 
   useEffect(() => {
+    // can not fetch from https://mocki.io/fake-json-api,
+    // instead fetching git api
     fetchBooklist();
   }, []);
 
   return userList.isLoading ? (
-    <Text>loading...</Text>
+    <Text>{configs.loadingText}</Text>
   ) : (
     <View style={styles.listContainer}>
       <FlatList
@@ -27,6 +30,7 @@ export default function UserList({ userList, updateList }) {
         onEndReached={() => {}}
         onEndReachedThreshold={0.01}
       />
+      <ToggleTabButton />
     </View>
   );
 }

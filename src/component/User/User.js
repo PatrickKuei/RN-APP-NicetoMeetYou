@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, TouchableOpacity, Image, Linking } from "react-native";
+import { configs } from "../../configs";
 import { styles } from "./styles";
 
 export default function User({ user }) {
@@ -9,7 +10,7 @@ export default function User({ user }) {
       if (supported) {
         Linking.openURL(html_url);
       } else {
-        console.log("Don't know how to open URI: " + html_url);
+        console.log(configs.openUrlFailed);
       }
     });
   };
@@ -22,7 +23,7 @@ export default function User({ user }) {
         </View>
         <View style={styles.detailContainer}>
           <Text style={styles.userName}>{user.login}</Text>
-          <Text style={styles.entryText}>go to his github</Text>
+          <Text style={styles.entryText}>{configs.userFileEntryText}</Text>
         </View>
       </View>
     </TouchableOpacity>
